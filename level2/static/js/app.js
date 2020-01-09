@@ -20,7 +20,6 @@ button.on("click", function() {
     // get the value of the entered form
     var valueDate = inputDate.property("value");
     var valueCity = inputCity.property("value");
-    console.log(valueCity);
     var valueState = inputState.property("value"); 
     var valueCountry = inputCountry.property("value"); 
     var valueShape = inputShape.property("value"); 
@@ -32,30 +31,19 @@ button.on("click", function() {
     var filteredCountry = tableData.filter(i => i.country === valueCountry);
     var filteredShape = tableData.filter(i => i.shape === valueShape);
     
+    var initialPull = [filteredDate, filteredCity, filteredState, filteredCountry, filteredShape]
     var holder = [];
 
-    for (let i = 0; i < filteredDate.length; i++) {
-        holder.push(filteredDate[i]);
-    };
-
-    for (let i = 0; i < filteredCity.length; i++) {
-        holder.push(filteredCity[i]);
-    };
-
-    for (let i = 0; i < filteredState.length; i++) {
-        holder.push(filteredState[i]);
-    };
-
-    for (let i = 0; i < filteredCountry.length; i++) {
-        holder.push(filteredCountry[i]);
-    };
-
-    for (let i = 0; i < filteredShape.length; i++) {
-        holder.push(filteredShape[i]);
+    // create master pull
+    for (let i = 0; i < initialPull.length; i++) {
+        for (let x = 0; x < initialPull[i].length; x++) {
+            holder.push(initialPull[i][x]);
+        };
     };
 
     var dupeHolder = [];
 
+    // erase duplicates in from master pull and store in new object
     for (let i = 0; i < holder.length; i++) {
         if (dupeHolder.includes(holder[i])) {
             console.log("dupe");
@@ -64,35 +52,46 @@ button.on("click", function() {
         };
     };
 
-    if (valueDate == "") {
-        console.log("date null");
-    } else {
-        var dupeHolder = dupeHolder.filter(i => i.datetime === valueDate);
-    }; 
+    var valueSummary = [valueDate, valueCity, valueState, valueCountry, valueShape]
+    var dictSummary = ["datetime", "city", "state", "country", "shape"]
 
-    if (valueCity == "") {
-        console.log("city null");
-    } else {
-        var dupeHolder = dupeHolder.filter(i => i.city === valueCity);
-    }; 
+    for (let i = 0; i < valueSummary.length; i++) {
+        if (valueSummary[i] == "") {
+            console.log(`${dictSummary[i]} null`);
+        } else {
+            var dupeHolder = dupeHolder.filter(x => x[dictSummary[i]] === valueSummary[i]);
+        };
+    };
 
-    if (valueState == "") {
-        console.log("state null");
-    } else {
-        var dupeHolder = dupeHolder.filter(i => i.state === valueState);
-    }; 
+    // if (valueDate == "") {
+    //     console.log("date null");
+    // } else {
+    //     var dupeHolder = dupeHolder.filter(i => i["datetime"] === valueDate);
+    // }; 
 
-    if (valueCountry == "") {
-        console.log("country null");
-    } else {
-        var dupeHolder = dupeHolder.filter(i => i.country === valueCountry);
-    }; 
+    // if (valueCity == "") {
+    //     console.log("city null");
+    // } else {
+    //     var dupeHolder = dupeHolder.filter(i => i["city"] === valueCity);
+    // }; 
 
-    if (valueShape == "") {
-        console.log("shape null");
-    } else {
-        var dupeHolder = dupeHolder.filter(i => i.shape === valueShape  );
-    }; 
+    // if (valueState == "") {
+    //     console.log("state null");
+    // } else {
+    //     var dupeHolder = dupeHolder.filter(i => i["state"] === valueState);
+    // }; 
+
+    // if (valueCountry == "") {
+    //     console.log("country null");
+    // } else {
+    //     var dupeHolder = dupeHolder.filter(i => i["country"] === valueCountry);
+    // }; 
+
+    // if (valueShape == "") {
+    //     console.log("shape null");
+    // } else {
+    //     var dupeHolder = dupeHolder.filter(i => i["shape"] === valueShape  );
+    // }; 
 
     //loop through object
     dupeHolder.forEach( (entry) => {
